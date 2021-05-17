@@ -55,10 +55,11 @@ class Lib {
   }
 
   function validateDate($date) {
+    //check exactly format like this
     $fullFormat = DateTime::createFromFormat('Y-m-d H:i:s', $date);
-    if($fullFormat) return 1;
+    if($fullFormat &&  $fullFormat->format('Y-m-d H:i:s') === $date) return 1;
     $partFormat = DateTime::createFromFormat('Y-m-d', $date);
-    if($partFormat) return 2;
+    if($partFormat &&  $partFormat->format('Y-m-d') === $date) return 2;
     return 0;
   }
 
