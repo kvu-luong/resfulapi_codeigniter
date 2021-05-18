@@ -119,6 +119,17 @@ class Report extends CI_Controller {
       $result = $this->report_model->get_data_report($dataInput);
       $outputData = $this->outData($result);
 
+      $log = array(
+        'time' => date('Y-m-d H:i:s'),
+        'token' => '['.$token.']',
+        'message' => "ATER REQUEST",
+        'start_date' => '['.$start_date.']',
+        'end_date' => '['.$end_date.']',
+        'phone' => $phone,
+        'status' => $status,
+      );
+      $this->lib->writeLog('report_sms.log',$log);
+      
       if($outputData == NULL){
         $response['status'] = 2;
         $response['description'] = $this->report_model->response_description(2);
@@ -131,16 +142,7 @@ class Report extends CI_Controller {
       $response['data'] = $outputData;
       $this->lib->generateOutput(200, json_encode($response));
 
-      $log = array(
-        'time' => date('Y-m-d H:i:s'),
-        'token' => '['.$token.']',
-        'message' => "ATER REQUEST",
-        'start_date' => '['.$start_date.']',
-        'end_date' => '['.$end_date.']',
-        'phone' => $phone,
-        'status' => $status,
-      );
-      $this->lib->writeLog('report_sms.log',$log);
+      
 
      
     } else {

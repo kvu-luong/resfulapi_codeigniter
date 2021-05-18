@@ -78,6 +78,7 @@ class Sms_model extends CI_model {
     return $this->db->insert_id();
   }
 
+
   // function fetch_all() {
   //   $this->db->order_by('id', 'DESC');
   //   return $this->db->get('tbl_sample') ;

@@ -55,7 +55,6 @@ class Lib {
   }
 
   function validateDate($date) {
-    //check exactly format like this
     $fullFormat = DateTime::createFromFormat('Y-m-d H:i:s', $date);
     if($fullFormat &&  $fullFormat->format('Y-m-d H:i:s') === $date) return 1;
     $partFormat = DateTime::createFromFormat('Y-m-d', $date);
@@ -127,10 +126,6 @@ class Lib {
       case 200:
         echo $data;
         break;
-      case 404:
-        header("HTTP/1.0 404 Not Found");
-        echo $data;
-        break;
       case 405:
         header("HTTP/1.0 405 Method Not Allowed");
         echo $data;
@@ -139,8 +134,31 @@ class Lib {
         header("HTTP/1.0 406 Not Acceptable");
         echo $data; 
         break;
+      case 503:
+        header("HTTP/1.0 503 Service Unavailable");
+        echo $data;
+        break;
+      case 429:
+        header("HTTP/1.0 429 Too Many Requests");
+        echo $data;
+        break;
       default:
+        header("HTTP/1.0 404 Not Found");
+        echo $data;
     }
+  }
+
+  function isUTF($msg){
+    if(mb_detect_encoding($msg)== 'UTF-8'){
+      return array(
+        'api' => SMS_API_UTF,
+        'status' => true,
+      );
+    }
+    return array(
+      'api' => SMS_API_NO_UTF,
+      'status' => false,
+    );
   }
 }
 ?>
